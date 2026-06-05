@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import path from "path";
 
 import authRoutes from "./routes/auth.routes.js";
+import cookieParser from "cookie-parser";
 import messageRoutes from "./routes/message.routes.js";
 import {connectDB} from "./lib/db.js"
 import { ENV } from "./lib/env.js";
@@ -16,6 +17,7 @@ const __dirname = path.resolve();
 const PORT = ENV.PORT || 3000;
 
 app.use(express.json())//req.body
+app.use(cookieParser())
 
 console.log(ENV.PORT);
 
