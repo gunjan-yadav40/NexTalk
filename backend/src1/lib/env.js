@@ -1,16 +1,15 @@
 
-import { ENV } from "../lib/env.js";
+import "dotenv/config";
 
 export const ENV = {
-  PORT: ENV.PORT,
-  MONGO_URI: ENV.MONGO_URI,
-  JWT_SECRET: ENV.JWT_SECRET,
-  NODE_ENV: ENV.NODE_ENV,
-  CLIENT_URL: ENV.CLIENT_URL,
-
-  RESEND_API_KEY: ENV.RESEND_API_KEY,
-  EMAIL_FROM: ENV.EMAIL_FROM,
-  EMAIL_FROM_NAME: ENV.EMAIL_FROM_NAME,
+  PORT: process.env.PORT,
+  MONGO_URI: process.env.MONGO_URI,
+  JWT_SECRET: process.env.JWT_SECRET,
+  NODE_ENV: process.env.NODE_ENV,
+  CLIENT_URL: process.env.CLIENT_URL,
+  RESEND_API_KEY: process.env.RESEND_API_KEY,
+  EMAIL_FROM: process.env.EMAIL_FROM,
+  EMAIL_FROM_NAME: process.env.EMAIL_FROM_NAME,
 };
 
 // PORT=3000

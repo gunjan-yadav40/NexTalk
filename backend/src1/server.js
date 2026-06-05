@@ -5,7 +5,7 @@ import path from "path";
 import authRoutes from "./routes/auth.routes.js";
 import messageRoutes from "./routes/message.routes.js";
 import {connectDB} from "./lib/db.js"
-import { ENV } from "../lib/env.js";
+import { ENV } from "./lib/env.js";
 
 
 
