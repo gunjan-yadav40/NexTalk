@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import dotenv from "dotenv";
 import path from "path";
@@ -18,6 +19,12 @@ const PORT = ENV.PORT || 3000;
 
 app.use(express.json())//req.body
 app.use(cookieParser())
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 console.log(ENV.PORT);
 

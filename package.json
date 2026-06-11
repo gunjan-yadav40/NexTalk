@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/gunjan-yadav40/NexTalk/issues"
   },
-  "homepage": "https://github.com/gunjan-yadav40/NexTalk#readme"
+  "homepage": "https://github.com/gunjan-yadav40/NexTalk#readme",
+  "dependencies": {
+    "react-hot-toast": "^2.6.0"
+  }
 }
