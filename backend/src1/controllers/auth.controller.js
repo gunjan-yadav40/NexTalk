@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import { generateToken } from "../lib/utils.js";
 import { sendWelcomeEmail } from "../email/emailHandlers.js";
 import { ENV } from "../lib/env.js";
-import clodinary from "../lib/cloudinary.js";
+import cloudinary from "../lib/cloudinary.js";
 
 export const signup = async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -136,6 +136,7 @@ export const logout = (_, res) => {
     message: "Logged out successfully",
   });
 };
+
 export const updateProfile = async (req, res) => {
   try {
     const { profilePic } = req.body;
@@ -146,6 +147,10 @@ export const updateProfile = async (req, res) => {
       });
 
     const userId = req.user._id;
+
+    console.log("Cloud Name:", ENV.CLOUDINARY_CLOUD_NAME);
+    console.log("API Key:", ENV.CLOUDINARY_API_KEY);
+    console.log("Secret Exists:", !!ENV.CLOUDINARY_API_SECRET);
 
     const uploadResponse = await cloudinary.uploader.upload(profilePic);
 
