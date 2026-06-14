@@ -33,7 +33,7 @@ function App() {
       <div className="absolute bottom-0 right-4 size-96 bg-cyan-500 opacity-20 blur-[100px]" />
 
       
-      <div className="relative z-10">
+      <div className="relative z-10 w-full max-w-none">
         <Routes>
   <Route
     path="/"
