@@ -1,4 +1,4 @@
-import Message from "../models/Message.js";
+import Message from "../models/message.js";
 import User from "../models/User.js";
 
 export const getAllContacts = async (req, res) => {
