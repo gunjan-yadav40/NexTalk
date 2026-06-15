@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { useChatStore } from "../store/useChatStore";
 
@@ -17,11 +17,21 @@ function ChatContainer() {
     isMessagesLoading,
   } = useChatStore();
 
+  const messageEndRef = useRef(null);
+
   useEffect(() => {
     if (selectedUser) {
       getMessagesByUserId(selectedUser._id);
     }
   }, [selectedUser, getMessagesByUserId]);
+
+  useEffect(() => {
+    if (messageEndRef.current) {
+      messageEndRef.current.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  }, [messages]);
 
   return (
     <div className="flex flex-col h-full">
@@ -52,24 +62,27 @@ function ChatContainer() {
                     <img
                       src={msg.image}
                       alt="Shared"
-                      className="rounded-lg h-48 object-cover"
+                      className="rounded-lg max-w-[300px] max-h-[300px] object-cover"
                     />
                   )}
 
                   {msg.text && (
-                    <p className="mt-2">
-                      {msg.text}
-                    </p>
+                    <p className="mt-2">{msg.text}</p>
                   )}
 
-                  <p className="text-xs mt-1 opacity-75 flex items-center gap-1">
-                    {new Date(msg.createdAt)
-                      .toISOString()
-                      .slice(11, 16)}
+                  <p className="text-xs mt-1 opacity-75">
+                    {new Date(
+                      msg.createdAt
+                    ).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
                   </p>
                 </div>
               </div>
             ))}
+
+            <div ref={messageEndRef} />
           </div>
         ) : (
           <NoChatHistoryPlaceholder
