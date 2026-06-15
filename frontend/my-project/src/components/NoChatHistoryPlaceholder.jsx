@@ -1,6 +1,21 @@
 import { MessageCircleIcon } from "lucide-react";
+import { useChatStore } from "../store/useChatStore";
 
 const NoChatHistoryPlaceholder = ({ name }) => {
+  const { sendMessage, selectedUser } = useChatStore();
+
+  const suggestedMessages = [
+    { emoji: "👋", text: "Say Hello", message: "Hello! How are you?" },
+    { emoji: "💬", text: "How are you?", message: "How are you doing today?" },
+    { emoji: "📅", text: "Meet up soon?", message: "Would you like to meet up sometime?" },
+  ];
+
+  const handleSendSuggestion = (messageText) => {
+    if (selectedUser) {
+      sendMessage({ text: messageText, image: null });
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center h-full text-center p-6">
       <div className="w-16 h-16 bg-gradient-to-br from-cyan-500/20 to-cyan-400/10 rounded-full flex items-center justify-center mb-5">
@@ -21,17 +36,15 @@ const NoChatHistoryPlaceholder = ({ name }) => {
       </div>
 
       <div className="flex flex-wrap gap-2 justify-center">
-        <button className="px-4 py-2 text-xs font-medium text-cyan-400 bg-cyan-500/10 rounded-full hover:bg-cyan-500/20 transition-colors">
-          👋 Say Hello
-        </button>
-
-        <button className="px-4 py-2 text-xs font-medium text-cyan-400 bg-cyan-500/10 rounded-full hover:bg-cyan-500/20 transition-colors">
-          💬 How are you?
-        </button>
-
-        <button className="px-4 py-2 text-xs font-medium text-cyan-400 bg-cyan-500/10 rounded-full hover:bg-cyan-500/20 transition-colors">
-          📅 Meet up soon?
-        </button>
+        {suggestedMessages.map((suggestion, index) => (
+          <button
+            key={index}
+            onClick={() => handleSendSuggestion(suggestion.message)}
+            className="px-4 py-2 text-xs font-medium text-cyan-400 bg-cyan-500/10 rounded-full hover:bg-cyan-500/20 hover:scale-105 transition-all duration-200"
+          >
+            {suggestion.emoji} {suggestion.text}
+          </button>
+        ))}
       </div>
     </div>
   );

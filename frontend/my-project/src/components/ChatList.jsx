@@ -4,7 +4,7 @@ import UsersLoadingSkeleton from "./UsersLoadingSkeleton";
 import NoChatsFound from "./NoChatsFound";
 import { useAuthStore } from "../store/useAuthStore";
 
-function ChatsList({ onSelectUser }) {
+function ChatList({ onSelectUser }) {
   const { 
     getMyChatPartners, 
     chats, 
@@ -199,4 +199,4 @@ function ChatsList({ onSelectUser }) {
   );
 }
 
-export default ChatsList;
+export default ChatList;

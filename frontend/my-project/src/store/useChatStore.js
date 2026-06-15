@@ -12,6 +12,7 @@ export const useChatStore = create((set, get) => ({
 
   activeTab: "chats",
   selectedUser: null,
+  isUserTyping: false,
 
   isUsersLoading: false,
   isMessagesLoading: false,
@@ -28,7 +29,10 @@ export const useChatStore = create((set, get) => ({
 
   setActiveTab: (tab) => set({ activeTab: tab }),
 
-  setSelectedUser: (selectedUser) => set({ selectedUser }),
+  setSelectedUser: (selectedUser) => {
+    console.log("📱 Selected user:", selectedUser?.fullName);
+    set({ selectedUser });
+  },
 
   getAllContacts: async () => {
     set({ isUsersLoading: true });
@@ -49,7 +53,6 @@ export const useChatStore = create((set, get) => ({
     try {
       const res = await axiosInstance.get("/messages/chats");
       
-      // Transform chats to include last message and unread count
       const enrichedChats = res.data.map(chat => ({
         ...chat,
         lastMessage: chat.lastMessage || null,
@@ -71,9 +74,7 @@ export const useChatStore = create((set, get) => ({
       const res = await axiosInstance.get(`/messages/${userId}`);
       set({ messages: res.data });
       
-      // Mark messages as read when opening chat
       await get().markMessagesAsRead(userId);
-      
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong");
     } finally {
@@ -85,9 +86,14 @@ export const useChatStore = create((set, get) => ({
     const { selectedUser, messages } = get();
     const { authUser } = useAuthStore.getState();
     
+    if (!selectedUser) {
+      toast.error("No user selected");
+      return;
+    }
+    
     set({ isSendingMessage: true });
     
-    const tempId = `temp-${Date.now()}`;
+    const tempId = `temp-${Date.now()}-${Math.random()}`;
     const optimisticMessage = {
       _id: tempId,
       senderId: authUser._id,
@@ -113,8 +119,6 @@ export const useChatStore = create((set, get) => ({
       );
       
       set({ messages: updatedMessages });
-      
-      // Update chat list with new last message
       await get().refreshChatList();
       
     } catch (error) {
@@ -127,12 +131,10 @@ export const useChatStore = create((set, get) => ({
     }
   },
   
-  // Mark messages as read
   markMessagesAsRead: async (userId) => {
     try {
       await axiosInstance.post(`/messages/mark-read/${userId}`);
       
-      // Update unread count in chats
       const updatedChats = get().chats.map(chat => {
         if (chat._id === userId) {
           return { ...chat, unreadCount: 0 };
@@ -141,13 +143,11 @@ export const useChatStore = create((set, get) => ({
       });
       
       set({ chats: updatedChats });
-      
     } catch (error) {
       console.error("Failed to mark messages as read:", error);
     }
   },
   
-  // Refresh chat list (call after sending/receiving messages)
   refreshChatList: async () => {
     try {
       const res = await axiosInstance.get("/messages/chats");
@@ -162,79 +162,98 @@ export const useChatStore = create((set, get) => ({
     }
   },
   
-  // Delete message (optional feature)
   deleteMessage: async (messageId) => {
     const { messages } = get();
+    const messageToDelete = messages.find(msg => msg._id === messageId);
     
-    // Optimistic update
     set({ messages: messages.filter(msg => msg._id !== messageId) });
     
     try {
       await axiosInstance.delete(`/messages/${messageId}`);
       toast.success("Message deleted");
     } catch (error) {
-      // Restore message on error
       await get().getMessagesByUserId(get().selectedUser?._id);
       toast.error("Failed to delete message");
     }
   },
   
-  // Subscribe to new messages
   subscribeToMessage: () => {
-    const { selectedUser, isSoundEnabled, refreshChatList } = get();
+    const { isSoundEnabled, refreshChatList } = get();
     const socket = useAuthStore.getState().socket;
+    const { authUser } = useAuthStore.getState();
 
-    if (!socket) return;
+    if (!socket) {
+      console.log("No socket connection");
+      return;
+    }
+
+    socket.off("newMessage");
 
     socket.on("newMessage", async (newMessage) => {
+      // Ignore own messages
+      if (newMessage.senderId === authUser?._id) return;
+
       const currentSelectedUser = get().selectedUser;
       const isMessageFromSelectedUser = currentSelectedUser?._id === newMessage.senderId;
       
       // Update messages if chat is open
       if (isMessageFromSelectedUser) {
         const currentMessages = get().messages;
-        set({ messages: [...currentMessages, newMessage] });
+        const alreadyExists = currentMessages.some(msg => msg._id === newMessage._id);
+        if (!alreadyExists) {
+          set({ messages: [...currentMessages, newMessage] });
+        }
       }
       
-      // Play notification sound
-      if (isSoundEnabled && notificationSound && !isMessageFromSelectedUser) {
+      // Play sound
+      if (isSoundEnabled && notificationSound) {
         notificationSound.currentTime = 0;
         notificationSound.play().catch(e => console.log("Audio play failed:", e));
       }
       
-      // Refresh chat list to update last message and unread count
       await refreshChatList();
       
-      // Show toast notification for new message from other user
+      // Show notification
       if (!isMessageFromSelectedUser) {
-        toast.success(`New message from ${newMessage.senderName || "someone"}`);
+        toast.success(`📩 New message from ${newMessage.senderName || "someone"}`);
       }
     });
   },
   
-  // Subscribe to typing indicators
   subscribeToTyping: () => {
     const socket = useAuthStore.getState().socket;
     const { selectedUser } = get();
     
     if (!socket || !selectedUser) return;
     
+    socket.off("typing");
+    
     socket.on("typing", ({ userId, isTyping }) => {
       if (userId === selectedUser._id) {
         set({ isUserTyping: isTyping });
+        
+        // Auto clear after 2 seconds
+        if (isTyping) {
+          setTimeout(() => {
+            const currentTyping = get().isUserTyping;
+            if (currentTyping) {
+              set({ isUserTyping: false });
+            }
+          }, 2000);
+        }
       }
     });
   },
   
-  // Send typing indicator
-  sendTypingIndicator: (isTyping) => {
+  sendTypingIndicator: (receiverId, isTyping) => {
     const socket = useAuthStore.getState().socket;
-    const { selectedUser } = get();
+    const { authUser } = useAuthStore.getState();
     
-    if (!socket || !selectedUser) return;
+    if (!socket || !authUser || !receiverId) return;
     
     socket.emit("typing", {
-      receiverId: selectedUser._id,
+      senderId: authUser._id,
+      receiverId: receiverId,
       isTyping,
     });
   },
@@ -246,6 +265,12 @@ export const useChatStore = create((set, get) => ({
       socket.off("typing");
     }
   },
+  
+  // Clear messages (useful for logout)
+  clearMessages: () => set({ messages: [] }),
+  
+  // Clear selected user
+  clearSelectedUser: () => set({ selectedUser: null }),
 }));
 
 export default useChatStore;

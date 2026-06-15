@@ -690,3 +690,296 @@ input:-webkit-autofill:active {
     transition-duration: 0.01ms !important;
   }
 }
+/* =========================
+   Additional Animations & Fixes
+   ========================= */
+
+/* Fade In Animation */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fade-in 0.2s ease-out;
+}
+
+/* Slide In From Bottom */
+@keyframes slide-in-from-bottom-2 {
+  from {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-in-from-bottom-2 {
+  animation: slide-in-from-bottom-2 0.2s ease-out;
+}
+
+/* Slide In From Top */
+@keyframes slide-in-from-top-2 {
+  from {
+    transform: translateY(-8px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-in-from-top-2 {
+  animation: slide-in-from-top-2 0.2s ease-out;
+}
+
+/* Scale In */
+@keyframes scale-in {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.scale-in {
+  animation: scale-in 0.2s ease-out;
+}
+
+/* Spin Slow for Border Animation */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 4s linear infinite;
+}
+
+/* Pulse Animation for Online Status */
+@keyframes pulse-online {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.95);
+  }
+}
+
+.animate-pulse-online {
+  animation: pulse-online 2s ease-in-out infinite;
+}
+
+/* Shake Animation for Errors */
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+.animate-shake {
+  animation: shake 0.3s ease-in-out;
+}
+
+/* Typing Indicator Dots */
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  background: rgba(51, 65, 85, 0.8);
+  border-radius: 20px;
+  backdrop-filter: blur(8px);
+}
+
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  background-color: #94a3b8;
+  border-radius: 50%;
+  animation: typingBounce 1.4s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+/* Scroll to Bottom Button */
+.scroll-to-bottom {
+  position: absolute;
+  bottom: 80px;
+  right: 20px;
+  z-index: 10;
+  padding: 10px;
+  background: linear-gradient(135deg, #06b6d4, #3b82f6);
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  animation: fade-in 0.2s ease-out, slide-in-from-bottom-2 0.2s ease-out;
+}
+
+.scroll-to-bottom:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(6, 182, 212, 0.4);
+}
+
+/* Message Container Styles */
+.messages-container {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar for Webkit Browsers */
+.messages-container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+  background: rgba(51, 65, 85, 0.5);
+  border-radius: 10px;
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+  background: rgba(6, 182, 212, 0.5);
+  border-radius: 10px;
+}
+
+.messages-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(6, 182, 212, 0.8);
+}
+
+/* Skeleton Loading Animation Enhancement */
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(51, 65, 85, 0.4) 25%,
+    rgba(71, 85, 105, 0.6) 50%,
+    rgba(51, 65, 85, 0.4) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s infinite;
+}
+
+/* Message Bubble Hover Effect */
+.message-bubble-hover {
+  transition: all 0.2s ease;
+}
+
+.message-bubble-hover:hover {
+  transform: scale(1.02);
+  filter: brightness(1.05);
+}
+
+/* Online Status Ring */
+.online-ring {
+  animation: ringPulse 2s infinite;
+}
+
+/* Badge Pulse */
+.badge-pulse {
+  animation: badgePulse 0.5s ease-in-out;
+}
+
+/* Image Preview Zoom */
+.image-preview {
+  animation: zoomIn 0.2s ease-out;
+}
+
+/* Contact Item Slide In */
+.contact-item {
+  animation: slideIn 0.3s ease-out;
+  animation-fill-mode: both;
+}
+
+/* Stagger Contact Items */
+.contact-item:nth-child(1) { animation-delay: 0ms; }
+.contact-item:nth-child(2) { animation-delay: 50ms; }
+.contact-item:nth-child(3) { animation-delay: 100ms; }
+.contact-item:nth-child(4) { animation-delay: 150ms; }
+.contact-item:nth-child(5) { animation-delay: 200ms; }
+
+/* Dropdown Menu Animation */
+.dropdown-menu {
+  animation: fade-in 0.2s ease-out, slide-in-from-top-2 0.2s ease-out;
+}
+
+/* Toast Notification Customization */
+.toast-custom {
+  background: rgba(30, 41, 59, 0.95) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(6, 182, 212, 0.3) !important;
+  border-radius: 12px !important;
+  color: white !important;
+}
+
+/* Loading Spinner Colors */
+.loader-spinner {
+  border: 2px solid rgba(6, 182, 212, 0.2);
+  border-top-color: #06b6d4;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Message Bubbles */
+@media (max-width: 640px) {
+  .message-bubble {
+    max-width: 85% !important;
+  }
+  
+  .message-text {
+    font-size: 14px !important;
+  }
+  
+  .message-time {
+    font-size: 9px !important;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .animate-pulse,
+  .animate-bounce,
+  .animate-spin {
+    animation: none !important;
+  }
+}
