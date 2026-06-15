@@ -15,6 +15,8 @@ function ChatContainer() {
     getMessagesByUserId,
     messages,
     isMessagesLoading,
+    subscribeToMessage,
+    unsubscribeFromMessages,
   } = useChatStore();
 
   const messageEndRef = useRef(null);
@@ -22,8 +24,17 @@ function ChatContainer() {
   useEffect(() => {
     if (selectedUser) {
       getMessagesByUserId(selectedUser._id);
+
+      subscribeToMessage();
     }
-  }, [selectedUser, getMessagesByUserId]);
+
+    return () => unsubscribeFromMessages();
+  }, [
+    selectedUser,
+    getMessagesByUserId,
+    subscribeToMessage,
+    unsubscribeFromMessages,
+  ]);
 
   useEffect(() => {
     if (messageEndRef.current) {
