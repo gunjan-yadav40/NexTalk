@@ -1,38 +1,37 @@
 import { useEffect } from "react";
 import { XIcon } from "lucide-react";
 import { useChatStore } from "../store/useChatStore";
+import { useAuthStore } from "../store/useAuthStore";
 
 function ChatHeader() {
   const { selectedUser, setSelectedUser } = useChatStore();
+  const { onlineUsers } = useAuthStore();
+  const isOnline = onlineUsers.includes(selectedUser?._id);
   useEffect(() => {
-  const handleEscKey = (event) => {
-    if (event.key === "Escape") {
-      setSelectedUser(null);
-    }
-  };
+    const handleEscKey = (event) => {
+      if (event.key === "Escape") {
+        setSelectedUser(null);
+      }
+    };
 
-  window.addEventListener("keydown", handleEscKey);
+    window.addEventListener("keydown", handleEscKey);
 
-  // cleanup function
-  return () => {
-    window.removeEventListener(
-      "keydown",
-      handleEscKey
-    );
-  };
-}, [setSelectedUser]);
+    // cleanup function
+    return () => {
+      window.removeEventListener("keydown", handleEscKey);
+    };
+  }, [setSelectedUser]);
   return (
-
-    
     <div className="flex justify-between items-center bg-slate-800/50 border-b border-slate-700/50 h-[84px] px-4">
       <div className="flex items-center gap-3">
-        <div className="avatar online">
+        <div
+          className={`avatar ${
+            onlineUsers.includes(selectedUser?._id) ? "online" : "offline"
+          }`}
+        >
           <div className="w-12 rounded-full">
             <img
-              src={
-                selectedUser?.profilePic ||
-                "/avatar.jpg"
-              }
+              src={selectedUser?.profilePic || "/avatar.jpg"}
               alt={selectedUser?.fullName}
             />
           </div>
@@ -44,7 +43,7 @@ function ChatHeader() {
           </h3>
 
           <p className="text-slate-400 text-sm">
-            Online
+            {isOnline ? "Online" : "Offline"}
           </p>
         </div>
       </div>
