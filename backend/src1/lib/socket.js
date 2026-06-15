@@ -16,6 +16,9 @@ const io = new Server(server, {
 
 // apply authentication middleware to all socket connections
 io.use(socketAuthMiddleware); 
+export function getreceiverSocket(userId){
+  return userSocketMap[userId];
+}
 
 // this is for storing online users
 const userSocketMap = {}; // { userId: socketId }
@@ -40,5 +43,8 @@ io.on("connection", (socket) => {
     io.emit("getOnlineUsers" , Object.keys(userSocketMap));
   });
 });
+export const getReceiverSocketId = (userId) => {
+  return userSocketMap[userId];
+};
 
 export {io,app,server};
