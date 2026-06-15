@@ -64,7 +64,7 @@ npm run dev
 
 ## Live Demo
 
-https://nextalk-lw1b.onrender.com
+[View Live Demo](https://nextalk-lw1b.onrender.com)
 
 ## Author
 
