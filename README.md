@@ -1,22 +1,22 @@
 # 💬 NexTalk
 
-NexTalk is a full-stack real-time chat application built using the MERN stack and Socket.IO. It enables users to communicate instantly through secure authentication, real-time messaging, image sharing, and a modern responsive interface.
+NexTalk is a full-stack real-time chat application built with the MERN stack and Socket.IO. It enables users to communicate instantly through secure authentication, real-time messaging, image sharing, and a modern responsive interface.
 
 ---
 
 ## 🚀 Features
 
-- Secure JWT Authentication
-- User Signup & Login
-- HTTP-only Cookie Authentication
-- Real-time Messaging using Socket.IO
-- Online & Offline User Status
-- Image Sharing with Cloudinary
-- Persistent Chat History
-- Welcome Email Integration using Resend
-- Protected Routes
-- Responsive UI for Desktop & Mobile
-- Dark/Light Theme Support
+- 🔐 Secure JWT Authentication with HTTP-only Cookies
+- 👤 User Signup & Login
+- 💬 Real-time One-to-One Messaging using Socket.IO
+- 🟢 Online & Offline User Presence
+- 🖼️ Image Sharing with Cloudinary
+- 📜 Persistent Chat History using MongoDB
+- 📧 Automated Welcome Emails using Resend
+- 🛡️ Protected Routes
+- 📱 Fully Responsive Design
+- 🎨 Modern UI built with Tailwind CSS & DaisyUI
+- 🌙 Dark Theme Interface
 
 ---
 
@@ -38,7 +38,7 @@ NexTalk is a full-stack real-time chat application built using the MERN stack an
 - Express.js
 - MongoDB
 - Mongoose
-- JWT
+- JWT Authentication
 - Socket.IO
 - Resend
 
@@ -50,23 +50,50 @@ NexTalk is a full-stack real-time chat application built using the MERN stack an
 
 ---
 
+## 📸 Screenshots
+
+### Login Page
+
+> *(Add login screenshot here)*
+
+![Login](C:\Users\yadav\OneDrive\Pictures\Screenshots 1\Screenshot 2026-08-04 184422.png)
+
+---
+
+### Signup Page
+
+> *(Add signup screenshot here)*
+
+![Signup](C:\Users\yadav\OneDrive\Pictures\Screenshots 1\Screenshot 2026-08-04 184321.png)
+
+---
+
+### Chat Dashboard
+
+> *(Add chat dashboard screenshot here)*
+
+![Dashboard](C:\Users\yadav\OneDrive\Pictures\Screenshots 1\Screenshot 2026-08-04 184229.png)
+
+---
+
 ## 📂 Project Structure
 
 ```text
 NexTalk
 │
-├── frontend
-│   ├── src
-│   ├── public
+├── frontend/
+│   ├── src/
+│   ├── public/
 │   └── package.json
 │
-├── backend
-│   ├── src
-│   │   ├── controllers
-│   │   ├── middleware
-│   │   ├── models
-│   │   ├── routes
-│   │   ├── lib
+├── backend/
+│   ├── src/
+│   │   ├── controllers/
+│   │   ├── middleware/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   ├── lib/
+│   │   ├── email/
 │   │   └── server.js
 │   └── package.json
 │
@@ -77,13 +104,13 @@ NexTalk
 
 ## ⚙️ Installation
 
-### Clone Repository
+### Clone the Repository
 
 ```bash
 git clone https://github.com/gunjan-yadav40/NexTalk.git
 ```
 
-### Backend
+### Install Backend
 
 ```bash
 cd backend
@@ -91,7 +118,7 @@ npm install
 npm run dev
 ```
 
-### Frontend
+### Install Frontend
 
 ```bash
 cd frontend
@@ -127,25 +154,26 @@ EMAIL_FROM_NAME=
 
 ## 🌐 Live Demo
 
-**Live Application**
+🔗 **Live Application**
 
 https://nextalk-lw1b.onrender.com
 
 > **Note**
 >
-> The application is hosted on Render's free tier. If the application has been inactive, the backend may take 30–60 seconds to wake up before responding to the first request.
+> The backend is deployed on Render's free tier. If the application has been inactive, the first request may take approximately 30–60 seconds while the server wakes up.
 
 ---
 
-## 📌 Future Improvements
+## 📈 Future Enhancements
 
-- Group Chat
-- Voice Calling
-- Video Calling
-- Message Search
-- Read Receipts
-- Push Notifications
-- Message Reactions
+- 👥 Group Chats
+- 😊 Emoji Picker
+- ✅ Read Receipts
+- ⌨️ Typing Indicators
+- 🔍 Message Search
+- 🔔 Push Notifications
+- 📞 Voice Calling
+- 🎥 Video Calling
 
 ---
 
@@ -155,8 +183,9 @@ https://nextalk-lw1b.onrender.com
 
 - GitHub: https://github.com/gunjan-yadav40
 
+
 ---
 
 ## 📄 License
 
-This project is created for educational and portfolio purposes.
+This project was developed for learning, portfolio, and demonstration purposes.
